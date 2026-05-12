@@ -1,542 +1,443 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Instagram, 
-  Mail, 
-  ArrowRight, 
-  Camera, 
-  Video, 
-  Star, 
-  TrendingUp, 
-  Users, 
-  Smartphone, 
-  ShoppingBag,
-  ChevronRight,
-  Menu,
-  X,
-  Heart
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punjaban.ugc | Luxury Portfolio</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-// --- Global Styles & Brand Identity ---
-const brand = {
-  colors: {
-    wine: "#6D2E46",
-    dustyRose: "#9B5C73",
-    mauvePink: "#B97A8D",
-    blush: "#D9A7B3",
-    nude: "#E8C9D0",
-    cream: "#FAF5F7",
-    plumBrown: "#4A2C36",
-    femBrown: "#70505A",
-    roseGold: "#C88A9B",
-  },
-  fonts: {
-    script: "'Parisienne', cursive",
-    serif: "'Cormorant Garamond', serif",
-    sans: "'Manrope', sans-serif"
-  }
-};
+    <style>
+        :root {
+            --wine: #6D2E46;
+            --dusty-rose: #9B5C73;
+            --mauve-pink: #B97A8D;
+            --blush: #D9A7B3;
+            --nude: #E8C9D0;
+            --cream: #FAF5F7;
+            --plum-brown: #4A2C36;
+            --fem-brown: #70505A;
+        }
 
-// --- Components ---
-
-const GrainOverlay = () => (
-  <div className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.03]" 
-       style={{ backgroundImage: `url('https://grainy-gradients.vercel.app/noise.svg')` }} />
-);
-
-const WatercolorBlob = ({ className, color = brand.colors.blush }) => (
-  <div className={`absolute rounded-full blur-[100px] opacity-20 pointer-events-none -z-10 ${className}`}
-       style={{ backgroundColor: color }} />
-);
-
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navLinks = [
-    { name: 'Story', href: '#about' },
-    { name: 'Offerings', href: '#services' },
-    { name: 'Gallery', href: '#work' },
-    { name: 'Results', href: '#stats' },
-    { name: 'Contact', href: '#contact' }
-  ];
-
-  return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-700 ${scrolled ? 'py-4' : 'py-8'}`}>
-      <div className="container mx-auto px-6">
-        <div className={`flex items-center justify-between px-8 py-3 rounded-full transition-all duration-700 ${scrolled ? 'bg-white/40 backdrop-blur-xl shadow-sm border border-white/40' : 'bg-transparent'}`}>
-          <div className="text-2xl md:text-3xl font-script tracking-tight text-[#4A2C36] flex items-center gap-1">
-            Punjaban<span className="text-[#9B5C73] text-lg mt-2">.ugc</span>
-          </div>
-          
-          <div className="hidden md:flex items-center space-x-10">
-            {navLinks.map((link) => (
-              <a key={link.name} href={link.href} className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#70505A] hover:text-[#6D2E46] transition-colors">
-                {link.name}
-              </a>
-            ))}
-            <button 
-              onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-              className="px-7 py-2.5 rounded-full bg-[#6D2E46] text-white text-xs font-bold uppercase tracking-widest hover:shadow-lg hover:shadow-[#6D2E46]/20 transition-all duration-500"
-            >
-              Collab
-            </button>
-          </div>
-
-          <button className="md:hidden text-[#4A2C36]" onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-2xl md:hidden py-12 px-6 shadow-2xl border-b border-pink-50"
-          >
-            <div className="flex flex-col items-center space-y-8">
-              {navLinks.map((link) => (
-                <a 
-                  key={link.name} 
-                  href={link.href} 
-                  onClick={() => setIsOpen(false)}
-                  className="text-2xl font-serif text-[#4A2C36]"
-                >
-                  {link.name}
-                </a>
-              ))}
-              <button 
-                onClick={() => { setIsOpen(false); document.getElementById('contact').scrollIntoView({ behavior: 'smooth' }); }}
-                className="w-full py-4 rounded-full bg-[#6D2E46] text-white font-bold tracking-widest uppercase text-xs"
-              >
-                Inquire Now
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
-  );
-};
-
-const SectionHeading = ({ subtitle, title, centered = true }) => (
-  <div className={`mb-20 ${centered ? 'text-center' : 'text-left'}`}>
-    <motion.span 
-      initial={{ opacity: 0, y: 15 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="font-script text-3xl text-[#9B5C73] mb-2 block"
-    >
-      {subtitle}
-    </motion.span>
-    <motion.h2 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: 0.2, duration: 1 }}
-      className="text-4xl md:text-6xl font-serif text-[#4A2C36] leading-tight"
-    >
-      {title}
-    </motion.h2>
-    {centered && <div className="h-px w-20 bg-pink-200 mx-auto mt-8" />}
-  </div>
-);
-
-const Hero = () => {
-  return (
-    <section className="relative min-h-screen flex items-center pt-28 pb-12 overflow-hidden bg-[#FAF5F7]">
-      <WatercolorBlob className="top-[-10%] right-[-5%] w-[60%] h-[60%] opacity-30" color="#EFD5DB" />
-      <WatercolorBlob className="bottom-[10%] left-[-10%] w-[50%] h-[50%]" color="#E6B7C1" />
-
-      <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-full overflow-hidden"
-        >
-          <div className="flex items-center space-x-4 mb-8">
-            <span className="h-[1px] w-12 bg-[#9B5C73]" />
-            <span className="text-[#9B5C73] font-bold tracking-[0.4em] uppercase text-[10px]">UGC & Brand Storytelling</span>
-          </div>
-          
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-script text-[#4A2C36] leading-[1.1] mb-6 pr-4">
-            punjaban<span className="text-[#9B5C73]">.</span>ugc
-          </h1>
-          
-          <h2 className="text-2xl md:text-3xl font-serif italic text-[#70505A] mb-10 max-w-md">
-            Soft luxury visuals for romantic & fashion-forward brands.
-          </h2>
-          
-          <div className="flex flex-wrap gap-4 md:gap-6">
-            <button 
-              onClick={() => document.getElementById('work').scrollIntoView({ behavior: 'smooth' })}
-              className="px-8 md:px-12 py-4 md:py-5 rounded-full bg-gradient-to-r from-[#6D2E46] to-[#9B5C73] text-white text-[10px] md:text-xs font-bold tracking-widest uppercase hover:shadow-xl hover:shadow-[#6D2E46]/20 transition-all duration-700 flex items-center space-x-3 group"
-            >
-              <span>View Portfolio</span>
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button 
-              onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-              className="px-8 md:px-12 py-4 md:py-5 rounded-full bg-white text-[#6D2E46] text-[10px] md:text-xs font-bold tracking-widest uppercase border border-pink-100 hover:bg-pink-50/50 transition-all duration-700 shadow-sm"
-            >
-              Work With Me
-            </button>
-          </div>
-
-          <div className="mt-16 md:mt-20 flex items-center space-x-8 md:space-x-12 opacity-80">
-            <div className="flex flex-col">
-              <span className="text-3xl md:text-4xl font-serif text-[#4A2C36]">150+</span>
-              <span className="text-[10px] text-[#70505A] uppercase tracking-widest font-bold">Campaigns</span>
-            </div>
-            <div className="h-10 w-px bg-pink-100" />
-            <div className="flex flex-col">
-              <span className="text-3xl md:text-4xl font-serif text-[#4A2C36]">4.8M</span>
-              <span className="text-[10px] text-[#70505A] uppercase tracking-widest font-bold">Impressions</span>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 2, ease: "easeOut" }}
-          className="relative mt-8 lg:mt-0"
-        >
-          {/* Magazine Layout Visual */}
-          <div className="relative z-10 w-full aspect-[4/5] rounded-[20px] overflow-hidden shadow-2xl p-4 bg-white">
-             <div className="w-full h-full rounded-[10px] overflow-hidden relative">
-                <div className="absolute inset-0 bg-gradient-to-t from-[#6D2E46]/20 to-transparent mix-blend-multiply" />
-                <img 
-                  src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&q=80&w=800" 
-                  alt="Portfolio" 
-                  className="w-full h-full object-cover grayscale-[20%]"
-                />
-             </div>
-          </div>
-          
-          <motion.div 
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -bottom-6 md:-bottom-10 -right-4 md:-right-6 z-20 p-6 md:p-8 rounded-[30px] bg-white/60 backdrop-blur-xl border border-white shadow-2xl max-w-[200px] md:max-w-[240px]"
-          >
-            <Heart className="text-[#9B5C73] mb-4" size={20} fill="#9B5C73" />
-            <p className="text-base md:text-lg font-serif italic text-[#4A2C36] leading-snug">"Bringing soul back to digital marketing through artistic expression."</p>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-const About = () => {
-  return (
-    <section id="about" className="py-24 md:py-40 bg-white relative">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24 items-center">
-          <div className="lg:col-span-6 relative">
-            <div className="absolute inset-0 bg-pink-100 rounded-[50px] -rotate-3 -z-10 scale-105 opacity-30" />
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.5 }}
-              className="rounded-[40px] overflow-hidden shadow-xl aspect-[3/4]"
-            >
-              <img src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&q=80&w=800" alt="Identity" className="w-full h-full object-cover" />
-            </motion.div>
-          </div>
-
-          <div className="lg:col-span-6">
-            <SectionHeading subtitle="The Artist" title="Feminine, Artistic, Soulful" centered={false} />
-            <p className="text-xl md:text-2xl font-serif text-[#70505A] mb-8 md:10 leading-relaxed italic">
-              "I believe content shouldn't just be consumed; it should be felt."
-            </p>
-            <p className="text-base md:text-lg text-[#70505A]/80 mb-12 leading-relaxed font-light">
-              I am Kamaljeet Kour, known as <strong>punjaban.ugc</strong>. My journey is about blending my cultural heritage with a high-fashion romantic aesthetic. I help global brands move away from sterile marketing and toward emotional connections.
-            </p>
-
-            <div className="grid grid-cols-2 gap-6 md:gap-8">
-              {[
-                { label: 'Creative Direction', icon: <Camera size={18}/> },
-                { label: 'Romantic Styling', icon: <Heart size={18}/> },
-                { label: 'Luxury Editing', icon: <Video size={18}/> },
-                { label: 'Brand Strategy', icon: <TrendingUp size={18}/> },
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center space-x-4">
-                  <div className="w-10 h-10 rounded-full bg-[#FAF5F7] flex items-center justify-center text-[#9B5C73]">
-                    {item.icon}
-                  </div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#4A2C36]">{item.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Services = () => {
-  const services = [
-    {
-      title: "Atmospheric Reels",
-      desc: "Short-form video content that captures the 'mood' of your products through cinematic transitions and soft lighting.",
-      icon: <Video className="w-8 h-8" />,
-      tag: "Video"
-    },
-    {
-      title: "Artistic Photography",
-      desc: "Editorial lifestyle shots with a grainy, film-like aesthetic that tells a romantic brand story.",
-      icon: <Camera className="w-8 h-8" />,
-      tag: "Visuals"
-    },
-    {
-      title: "Bespoke Media Kits",
-      desc: "Custom-designed influencer presentations that mirror your brand's luxury identity and values.",
-      icon: <Star className="w-8 h-8" />,
-      tag: "Strategic"
-    },
-    {
-      title: "Emotional Reviews",
-      desc: "Authentic, soft-spoken testimonial content that resonates with heart-led consumers.",
-      icon: <Users className="w-8 h-8" />,
-      tag: "Authentic"
-    }
-  ];
-
-  return (
-    <section id="services" className="py-24 md:py-40 bg-[#FAF5F7]">
-      <div className="container mx-auto px-6">
-        <SectionHeading subtitle="Curated Services" title="Elevate Your Visual Identity" />
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-          {services.map((s, idx) => (
-            <motion.div
-              key={idx}
-              whileHover={{ y: -8 }}
-              className="p-10 md:p-12 rounded-[50px] bg-white border border-pink-50 shadow-sm hover:shadow-2xl transition-all duration-700 group flex flex-col items-center text-center"
-            >
-              <div className="mb-8 p-6 rounded-full bg-[#FAF5F7] text-[#9B5C73] transition-colors group-hover:bg-[#6D2E46] group-hover:text-white">
-                {s.icon}
-              </div>
-              <span className="text-[10px] font-bold text-[#D9A7B3] uppercase tracking-[0.4em] mb-4">{s.tag}</span>
-              <h3 className="text-2xl md:text-3xl font-serif text-[#4A2C36] mb-6">{s.title}</h3>
-              <p className="text-[#70505A]/70 leading-relaxed text-sm md:base font-light mb-8 max-w-xs">{s.desc}</p>
-              <button 
-                onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-                className="flex items-center space-x-2 text-[#9B5C73] font-bold text-xs uppercase tracking-widest group"
-              >
-                <span>Request Pricing</span>
-                <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Portfolio = () => {
-  const images = [
-    { url: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=800", title: "Midnight Silk" },
-    { url: "https://images.unsplash.com/photo-1537905569824-f89f14cceb68?auto=format&fit=crop&q=80&w=800", title: "Morning Glow" },
-    { url: "https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?auto=format&fit=crop&q=80&w=800", title: "Soft Linens" },
-    { url: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800", title: "Mauve Moments" },
-    { url: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=800", title: "Parisian Chic" },
-    { url: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800", title: "Luxury Skin" },
-  ];
-
-  return (
-    <section id="work" className="py-24 md:py-40 bg-white">
-      <div className="container mx-auto px-6">
-        <SectionHeading subtitle="Art Gallery" title="Bespoke Visual Stories" />
-
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-8 md:gap-10">
-          {images.map((img, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="relative group mb-10 overflow-hidden rounded-[30px] cursor-pointer shadow-lg"
-            >
-              <div className="absolute inset-0 bg-[#6D2E46]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10" />
-              <img src={img.url} alt={img.title} className="w-full h-auto transform group-hover:scale-105 transition-all duration-[1.5s]" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#4A2C36]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 z-20 flex flex-col justify-end p-8 md:p-10">
-                <span className="font-script text-2xl text-white mb-2">{img.title}</span>
-                <p className="text-white/70 text-[10px] uppercase tracking-widest font-bold">Campaign 2024</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Contact = () => {
-  return (
-    <section id="contact" className="py-24 md:py-40 bg-[#F4E4E8] relative overflow-hidden">
-      <WatercolorBlob className="top-[-20%] left-[-10%] w-[60%] h-[60%] opacity-40" color="#B97A8D" />
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-20 bg-white/40 backdrop-blur-3xl rounded-[40px] md:rounded-[60px] p-8 md:p-24 border border-white shadow-2xl">
-          <div>
-            <span className="font-script text-3xl md:text-4xl text-[#9B5C73] block mb-4">Let's Create...</span>
-            <h2 className="text-4xl md:text-6xl font-serif text-[#4A2C36] mb-8 md:10 leading-tight">Something truly <br /><span className="italic">beautiful.</span></h2>
-            <p className="text-base md:text-lg text-[#70505A] mb-12 font-light leading-relaxed">
-              Accepting inquiries for fashion, beauty, and luxury lifestyle brands looking for an artistic, feminine touch.
-            </p>
-            
-            <div className="space-y-6 md:space-y-8">
-              <div className="flex items-center space-x-6">
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white flex items-center justify-center text-[#9B5C73] shadow-sm">
-                  <Mail size={24} />
-                </div>
-                <div>
-                  <p className="text-[10px] text-[#D9A7B3] uppercase font-bold tracking-[0.2em]">Email Me</p>
-                  <p className="text-lg md:text-xl font-serif text-[#4A2C36]">punjabanugc06@gmail.com</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-6">
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white flex items-center justify-center text-[#9B5C73] shadow-sm">
-                  <Instagram size={24} />
-                </div>
-                <div>
-                  <p className="text-[10px] text-[#D9A7B3] uppercase font-bold tracking-[0.2em]">Connect</p>
-                  <p className="text-lg md:text-xl font-serif text-[#4A2C36]">@punjaban.ugc</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Connected to punjabanugc06@gmail.com using FormSubmit */}
-          <form action="https://formsubmit.co/punjabanugc06@gmail.com" method="POST" className="space-y-6 md:space-y-8 mt-12 lg:mt-0">
-            {/* FormSubmit Configuration */}
-            <input type="hidden" name="_subject" value="New Collaboration Inquiry - Punjaban.ugc" />
-            <input type="hidden" name="_template" value="box" />
-            <input type="hidden" name="_autoresponse" value="Thank you for reaching out to Punjaban.ugc. I have received your message and will get back to you shortly." />
-
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#9B5C73]">Who are you?</label>
-              <input 
-                type="text" 
-                name="name" 
-                required 
-                placeholder="Name or Brand Name" 
-                className="w-full bg-white/50 border-b border-pink-200 py-4 focus:border-[#6D2E46] outline-none transition-all placeholder:text-[#D9A7B3]/50 font-serif text-lg" 
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#9B5C73]">Reach you at</label>
-              <input 
-                type="email" 
-                name="email" 
-                required 
-                placeholder="Email Address" 
-                className="w-full bg-white/50 border-b border-pink-200 py-4 focus:border-[#6D2E46] outline-none transition-all placeholder:text-[#D9A7B3]/50 font-serif text-lg" 
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#9B5C73]">The Vision</label>
-              <textarea 
-                name="message" 
-                required 
-                placeholder="Tell me your story..." 
-                rows="4" 
-                className="w-full bg-white/50 border-b border-pink-200 py-4 focus:border-[#6D2E46] outline-none transition-all placeholder:text-[#D9A7B3]/50 font-serif text-lg resize-none"
-              ></textarea>
-            </div>
-            <button type="submit" className="w-full py-5 md:py-6 rounded-full bg-[#6D2E46] text-white font-bold tracking-[0.3em] uppercase text-xs hover:shadow-2xl hover:shadow-[#6D2E46]/30 transition-all duration-700">
-              Send Love Note
-            </button>
-          </form>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Footer = () => (
-  <footer className="py-16 bg-[#FAF5F7] border-t border-pink-50 text-center">
-    <div className="container mx-auto px-6">
-      <div className="text-3xl md:text-4xl font-script text-[#4A2C36] mb-6">
-        Punjaban<span className="text-[#9B5C73] text-xl">.ugc</span>
-      </div>
-      <div className="w-12 h-px bg-pink-200 mx-auto mb-8" />
-      <div className="text-[#B97A8D] text-[10px] font-bold uppercase tracking-[0.4em] mb-8">
-        Designed for Soft Luxury Brands
-      </div>
-      <div className="flex justify-center space-x-10 text-[#70505A]">
-        <a href="https://instagram.com/punjaban.ugc" target="_blank" rel="noreferrer" className="hover:text-[#6D2E46] transition-colors"><Instagram size={20} /></a>
-        <a href="mailto:punjabanugc06@gmail.com" className="hover:text-[#6D2E46] transition-colors"><Mail size={20} /></a>
-        <a href="#contact" className="hover:text-[#6D2E46] transition-colors"><Heart size={20} /></a>
-      </div>
-      <p className="mt-12 text-[10px] text-[#D9A7B3] uppercase tracking-[0.2em]">© 2024 Punjaban.ugc - All Rights Reserved</p>
-    </div>
-  </footer>
-);
-
-export default function App() {
-  return (
-    <div className="font-sans text-[#4A2C36] selection:bg-[#6D2E46]/10 selection:text-[#6D2E46] bg-[#FAF5F7]">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap');
-        
         .font-script { font-family: 'Parisienne', cursive; }
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-sans { font-family: 'Manrope', sans-serif; }
-        
+
         html { scroll-behavior: smooth; }
-        
-        ::-webkit-scrollbar {
-          width: 5px;
-        }
-        ::-webkit-scrollbar-track {
-          background: #FAF5F7;
-        }
-        ::-webkit-scrollbar-thumb {
-          background: #D9A7B3;
-          border-radius: 10px;
+        body { background-color: var(--cream); overflow-x: hidden; }
+
+        .grain-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
         }
 
-        /* Watercolor animation */
-        @keyframes drift {
-          0% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(20px, 20px) scale(1.1); }
-          100% { transform: translate(0, 0) scale(1); }
+        .watercolor-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: -10;
         }
-      `}</style>
-      
-      <GrainOverlay />
-      <Navbar />
-      <main>
-        <Hero />
-        <section className="py-12 md:py-20 bg-white/30 backdrop-blur-md overflow-hidden flex justify-center">
-            <div className="flex space-x-12 md:space-x-20 opacity-30 grayscale contrast-125">
-                 {['CHANEL', 'DIOR', 'VOGUE', 'GUCCI', 'HERMÈS', 'PRADA'].map(l => (
-                     <span key={l} className="text-xl md:text-3xl font-serif tracking-[0.4em]">{l}</span>
-                 ))}
+
+        .nav-scrolled {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            padding: 0.75rem 1.5rem !important;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--wine), var(--dusty-rose));
+            transition: all 0.5s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 10px 25px -5px rgba(109, 46, 70, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .portfolio-card img {
+            transition: transform 1.5s ease;
+        }
+        .portfolio-card:hover img {
+            transform: scale(1.05);
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, 20px) scale(1.1); }
+        }
+        .animate-drift {
+            animation: drift 10s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="font-sans text-[#4A2C36]">
+
+    <div class="grain-overlay"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-700 py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-between px-8 py-3 rounded-full transition-all duration-700 border border-transparent">
+                <div class="text-2xl md:text-3xl font-script tracking-tight text-[#4A2C36] flex items-center gap-1">
+                    Punjaban<span class="text-[#9B5C73] text-lg mt-2">.ugc</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-10">
+                    <a href="#about" class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#70505A] hover:text-[#6D2E46] transition-colors">Story</a>
+                    <a href="#services" class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#70505A] hover:text-[#6D2E46] transition-colors">Offerings</a>
+                    <a href="#work" class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#70505A] hover:text-[#6D2E46] transition-colors">Gallery</a>
+                    <a href="#contact" class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#70505A] hover:text-[#6D2E46] transition-colors">Contact</a>
+                    <button onclick="location.href='#contact'" class="px-7 py-2.5 rounded-full bg-[#6D2E46] text-white text-xs font-bold uppercase tracking-widest hover:shadow-lg hover:shadow-[#6D2E46]/20 transition-all duration-500">
+                        Collab
+                    </button>
+                </div>
+
+                <button class="md:hidden text-[#4A2C36]" id="menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
             </div>
-        </section>
-        <About />
-        <Services />
-        <Portfolio />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
-  );
-}
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-2xl py-12 px-6 shadow-2xl border-b border-pink-50 text-center">
+            <div class="flex flex-col items-center space-y-8">
+                <a href="#about" class="text-2xl font-serif text-[#4A2C36]">Story</a>
+                <a href="#services" class="text-2xl font-serif text-[#4A2C36]">Offerings</a>
+                <a href="#work" class="text-2xl font-serif text-[#4A2C36]">Gallery</a>
+                <a href="#contact" class="text-2xl font-serif text-[#4A2C36]">Contact</a>
+                <button onclick="location.href='#contact'" class="w-full py-4 rounded-full bg-[#6D2E46] text-white font-bold tracking-widest uppercase text-xs">
+                    Inquire Now
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-28 pb-12 overflow-hidden">
+        <div class="watercolor-blob top-[-10%] right-[-5%] w-[60%] h-[60%] opacity-30" style="background-color: #EFD5DB;"></div>
+        <div class="watercolor-blob bottom-[10%] left-[-10%] w-[50%] h-[50%]" style="background-color: #E6B7C1;"></div>
+
+        <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+            <div>
+                <div class="flex items-center space-x-4 mb-8">
+                    <span class="h-[1px] w-12 bg-[#9B5C73]"></span>
+                    <span class="text-[#9B5C73] font-bold tracking-[0.4em] uppercase text-[10px]">UGC & Brand Storytelling</span>
+                </div>
+                
+                <h1 class="text-6xl md:text-7xl lg:text-8xl font-script text-[#4A2C36] leading-[1.1] mb-6 pr-4">
+                    punjaban<span class="text-[#9B5C73]">.</span>ugc
+                </h1>
+                
+                <h2 class="text-2xl md:text-3xl font-serif italic text-[#70505A] mb-10 max-w-md">
+                    Soft luxury visuals for romantic & fashion-forward brands.
+                </h2>
+                
+                <div class="flex flex-wrap gap-4 md:gap-6">
+                    <button onclick="location.href='#work'" class="btn-primary px-8 md:px-12 py-4 md:py-5 rounded-full text-white text-[10px] md:text-xs font-bold tracking-widest uppercase flex items-center space-x-3 group">
+                        <span>View Portfolio</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                    <button onclick="location.href='#contact'" class="px-8 md:px-12 py-4 md:py-5 rounded-full bg-white text-[#6D2E46] text-[10px] md:text-xs font-bold tracking-widest uppercase border border-pink-100 hover:bg-pink-50/50 transition-all duration-700 shadow-sm">
+                        Work With Me
+                    </button>
+                </div>
+
+                <div class="mt-16 md:mt-20 flex items-center space-x-8 md:space-x-12 opacity-80">
+                    <div class="flex flex-col">
+                        <span class="text-3xl md:text-4xl font-serif text-[#4A2C36]">150+</span>
+                        <span class="text-[10px] text-[#70505A] uppercase tracking-widest font-bold">Campaigns</span>
+                    </div>
+                    <div class="h-10 w-px bg-pink-100"></div>
+                    <div class="flex flex-col">
+                        <span class="text-3xl md:text-4xl font-serif text-[#4A2C36]">4.8M</span>
+                        <span class="text-[10px] text-[#70505A] uppercase tracking-widest font-bold">Impressions</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative mt-8 lg:mt-0">
+                <div class="relative z-10 w-full aspect-[4/5] rounded-[20px] overflow-hidden shadow-2xl p-4 bg-white">
+                    <div class="w-full h-full rounded-[10px] overflow-hidden relative">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#6D2E46]/20 to-transparent mix-blend-multiply"></div>
+                        <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&q=80&w=800" alt="Portfolio" class="w-full h-full object-cover grayscale-[20%]">
+                    </div>
+                </div>
+                
+                <div class="absolute -bottom-6 md:-bottom-10 -right-4 md:-right-6 z-20 p-6 md:p-8 rounded-[30px] bg-white/60 backdrop-blur-xl border border-white shadow-2xl max-w-[200px] md:max-w-[240px] animate-drift">
+                    <i data-lucide="heart" class="text-[#9B5C73] mb-4 fill-[#9B5C73] w-5 h-5"></i>
+                    <p class="text-base md:text-lg font-serif italic text-[#4A2C36] leading-snug">"Bringing soul back to digital marketing through artistic expression."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logo Bar -->
+    <section class="py-12 md:py-20 bg-white/30 backdrop-blur-md overflow-hidden flex justify-center border-y border-pink-50">
+        <div class="flex space-x-12 md:space-x-20 opacity-30 grayscale contrast-125">
+            <span class="text-xl md:text-3xl font-serif tracking-[0.4em]">CHANEL</span>
+            <span class="text-xl md:text-3xl font-serif tracking-[0.4em]">DIOR</span>
+            <span class="text-xl md:text-3xl font-serif tracking-[0.4em]">VOGUE</span>
+            <span class="text-xl md:text-3xl font-serif tracking-[0.4em]">GUCCI</span>
+            <span class="text-xl md:text-3xl font-serif tracking-[0.4em]">PRADA</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 md:py-40 bg-white relative">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24 items-center">
+                <div class="lg:col-span-6 relative">
+                    <div class="absolute inset-0 bg-pink-100 rounded-[50px] -rotate-3 -z-10 scale-105 opacity-30"></div>
+                    <div class="rounded-[40px] overflow-hidden shadow-xl aspect-[3/4]">
+                        <img src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&q=80&w=800" alt="Identity" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6">
+                    <div class="mb-12">
+                        <span class="font-script text-3xl text-[#9B5C73] mb-2 block">The Artist</span>
+                        <h2 class="text-4xl md:text-6xl font-serif text-[#4A2C36] leading-tight">Feminine, Artistic, Soulful</h2>
+                    </div>
+                    <p class="text-xl md:text-2xl font-serif text-[#70505A] mb-8 md:10 leading-relaxed italic">
+                        "I believe content shouldn't just be consumed; it should be felt."
+                    </p>
+                    <p class="text-base md:text-lg text-[#70505A]/80 mb-12 leading-relaxed font-light">
+                        I am Kamaljeet Kour, known as <strong>punjaban.ugc</strong>. My journey is about blending my cultural heritage with a high-fashion romantic aesthetic. I help global brands move away from sterile marketing and toward emotional connections.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-6 md:gap-8">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-[#FAF5F7] flex items-center justify-center text-[#9B5C73]">
+                                <i data-lucide="camera" class="w-4.5 h-4.5"></i>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-[#4A2C36]">Creative Direction</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-[#FAF5F7] flex items-center justify-center text-[#9B5C73]">
+                                <i data-lucide="heart" class="w-4.5 h-4.5"></i>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-[#4A2C36]">Romantic Styling</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-[#FAF5F7] flex items-center justify-center text-[#9B5C73]">
+                                <i data-lucide="video" class="w-4.5 h-4.5"></i>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-[#4A2C36]">Luxury Editing</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-[#FAF5F7] flex items-center justify-center text-[#9B5C73]">
+                                <i data-lucide="trending-up" class="w-4.5 h-4.5"></i>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-[#4A2C36]">Brand Strategy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 md:py-40 bg-[#FAF5F7]">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <span class="font-script text-3xl text-[#9B5C73] mb-2 block">Curated Services</span>
+                <h2 class="text-4xl md:text-6xl font-serif text-[#4A2C36] leading-tight">Elevate Your Visual Identity</h2>
+                <div class="h-px w-20 bg-pink-200 mx-auto mt-8"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+                <!-- Service Item -->
+                <div class="p-10 md:p-12 rounded-[50px] bg-white border border-pink-50 shadow-sm transition-all duration-700 group flex flex-col items-center text-center hover:shadow-2xl hover:-translate-y-2">
+                    <div class="mb-8 p-6 rounded-full bg-[#FAF5F7] text-[#9B5C73] transition-colors group-hover:bg-[#6D2E46] group-hover:text-white">
+                        <i data-lucide="video" class="w-8 h-8"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-[#D9A7B3] uppercase tracking-[0.4em] mb-4">Video</span>
+                    <h3 class="text-2xl md:text-3xl font-serif text-[#4A2C36] mb-6">Atmospheric Reels</h3>
+                    <p class="text-[#70505A]/70 leading-relaxed text-sm md:base font-light mb-8 max-w-xs">Short-form video content that captures the 'mood' of your products through cinematic transitions and soft lighting.</p>
+                    <button onclick="location.href='#contact'" class="flex items-center space-x-2 text-[#9B5C73] font-bold text-xs uppercase tracking-widest">
+                        <span>Request Pricing</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+
+                <!-- Service Item -->
+                <div class="p-10 md:p-12 rounded-[50px] bg-white border border-pink-50 shadow-sm transition-all duration-700 group flex flex-col items-center text-center hover:shadow-2xl hover:-translate-y-2">
+                    <div class="mb-8 p-6 rounded-full bg-[#FAF5F7] text-[#9B5C73] transition-colors group-hover:bg-[#6D2E46] group-hover:text-white">
+                        <i data-lucide="camera" class="w-8 h-8"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-[#D9A7B3] uppercase tracking-[0.4em] mb-4">Visuals</span>
+                    <h3 class="text-2xl md:text-3xl font-serif text-[#4A2C36] mb-6">Artistic Photography</h3>
+                    <p class="text-[#70505A]/70 leading-relaxed text-sm md:base font-light mb-8 max-w-xs">Editorial lifestyle shots with a grainy, film-like aesthetic that tells a romantic brand story.</p>
+                    <button onclick="location.href='#contact'" class="flex items-center space-x-2 text-[#9B5C73] font-bold text-xs uppercase tracking-widest">
+                        <span>Request Pricing</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="work" class="py-24 md:py-40 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <span class="font-script text-3xl text-[#9B5C73] mb-2 block">Art Gallery</span>
+                <h2 class="text-4xl md:text-6xl font-serif text-[#4A2C36] leading-tight">Bespoke Visual Stories</h2>
+                <div class="h-px w-20 bg-pink-200 mx-auto mt-8"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                <!-- Portfolio Card -->
+                <div class="portfolio-card relative group overflow-hidden rounded-[30px] cursor-pointer shadow-lg aspect-[4/5]">
+                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale-[20%]" alt="Work">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#4A2C36]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 flex flex-col justify-end p-8 md:p-10">
+                        <span class="font-script text-2xl text-white mb-2">Midnight Silk</span>
+                        <p class="text-white/70 text-[10px] uppercase tracking-widest font-bold">Campaign 2024</p>
+                    </div>
+                </div>
+                <!-- Portfolio Card -->
+                <div class="portfolio-card relative group overflow-hidden rounded-[30px] cursor-pointer shadow-lg aspect-[4/5]">
+                    <img src="https://images.unsplash.com/photo-1537905569824-f89f14cceb68?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale-[20%]" alt="Work">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#4A2C36]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 flex flex-col justify-end p-8 md:p-10">
+                        <span class="font-script text-2xl text-white mb-2">Morning Glow</span>
+                        <p class="text-white/70 text-[10px] uppercase tracking-widest font-bold">Campaign 2024</p>
+                    </div>
+                </div>
+                <!-- Portfolio Card -->
+                <div class="portfolio-card relative group overflow-hidden rounded-[30px] cursor-pointer shadow-lg aspect-[4/5]">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale-[20%]" alt="Work">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#4A2C36]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 flex flex-col justify-end p-8 md:p-10">
+                        <span class="font-script text-2xl text-white mb-2">Mauve Moments</span>
+                        <p class="text-white/70 text-[10px] uppercase tracking-widest font-bold">Campaign 2024</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 md:py-40 bg-[#F4E4E8] relative overflow-hidden">
+        <div class="watercolor-blob top-[-20%] left-[-10%] w-[60%] h-[60%] opacity-40" style="background-color: #B97A8D;"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-20 bg-white/40 backdrop-blur-3xl rounded-[40px] md:rounded-[60px] p-8 md:p-24 border border-white shadow-2xl">
+                <div>
+                    <span class="font-script text-3xl md:text-4xl text-[#9B5C73] block mb-4">Let's Create...</span>
+                    <h2 class="text-4xl md:text-6xl font-serif text-[#4A2C36] mb-8 md:10 leading-tight">Something truly <br /><span class="italic">beautiful.</span></h2>
+                    <p class="text-base md:text-lg text-[#70505A] mb-12 font-light leading-relaxed">
+                        Accepting inquiries for fashion, beauty, and luxury lifestyle brands looking for an artistic, feminine touch.
+                    </p>
+                    
+                    <div class="space-y-6 md:space-y-8">
+                        <div class="flex items-center space-x-6">
+                            <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white flex items-center justify-center text-[#9B5C73] shadow-sm">
+                                <i data-lucide="mail" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-[#D9A7B3] uppercase font-bold tracking-[0.2em]">Email Me</p>
+                                <p class="text-lg md:text-xl font-serif text-[#4A2C36]">punjabanugc06@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-6">
+                            <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white flex items-center justify-center text-[#9B5C73] shadow-sm">
+                                <i data-lucide="instagram" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-[#D9A7B3] uppercase font-bold tracking-[0.2em]">Connect</p>
+                                <p class="text-lg md:text-xl font-serif text-[#4A2C36]">@punjaban.ugc</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form action="https://formsubmit.co/punjabanugc06@gmail.com" method="POST" class="space-y-6 md:space-y-8 mt-12 lg:mt-0">
+                    <input type="hidden" name="_subject" value="New Collaboration Inquiry - Punjaban.ugc">
+                    <input type="hidden" name="_template" value="box">
+                    <input type="hidden" name="_autoresponse" value="Thank you for reaching out to Punjaban.ugc. I have received your message and will get back to you shortly.">
+
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-[0.3em] font-bold text-[#9B5C73]">Who are you?</label>
+                        <input type="text" name="name" required placeholder="Name or Brand Name" class="w-full bg-white/50 border-b border-pink-200 py-4 focus:border-[#6D2E46] outline-none transition-all placeholder:text-[#D9A7B3]/50 font-serif text-lg">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-[0.3em] font-bold text-[#9B5C73]">Reach you at</label>
+                        <input type="email" name="email" required placeholder="Email Address" class="w-full bg-white/50 border-b border-pink-200 py-4 focus:border-[#6D2E46] outline-none transition-all placeholder:text-[#D9A7B3]/50 font-serif text-lg">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-[0.3em] font-bold text-[#9B5C73]">The Vision</label>
+                        <textarea name="message" required placeholder="Tell me your story..." rows="4" class="w-full bg-white/50 border-b border-pink-200 py-4 focus:border-[#6D2E46] outline-none transition-all placeholder:text-[#D9A7B3]/50 font-serif text-lg resize-none"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-5 md:py-6 rounded-full bg-[#6D2E46] text-white font-bold tracking-[0.3em] uppercase text-xs hover:shadow-2xl hover:shadow-[#6D2E46]/30 transition-all duration-700">
+                        Send Love Note
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 bg-[#FAF5F7] border-t border-pink-50 text-center">
+        <div class="container mx-auto px-6">
+            <div class="text-3xl md:text-4xl font-script text-[#4A2C36] mb-6">
+                Punjaban<span class="text-[#9B5C73] text-xl">.ugc</span>
+            </div>
+            <div class="w-12 h-px bg-pink-200 mx-auto mb-8"></div>
+            <div class="text-[#B97A8D] text-[10px] font-bold uppercase tracking-[0.4em] mb-8">
+                Designed for Soft Luxury Brands
+            </div>
+            <div class="flex justify-center space-x-10 text-[#70505A]">
+                <a href="https://instagram.com/punjaban.ugc" target="_blank" class="hover:text-[#6D2E46] transition-colors"><i data-lucide="instagram"></i></a>
+                <a href="mailto:punjabanugc06@gmail.com" class="hover:text-[#6D2E46] transition-colors"><i data-lucide="mail"></i></a>
+                <a href="#contact" class="hover:text-[#6D2E46] transition-colors"><i data-lucide="heart"></i></a>
+            </div>
+            <p class="mt-12 text-[10px] text-[#D9A7B3] uppercase tracking-[0.2em]">© 2024 Punjaban.ugc - All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+                navbar.querySelector('.container > div').classList.add('bg-white/40', 'backdrop-blur-xl', 'shadow-sm', 'border-white/40');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+                navbar.querySelector('.container > div').classList.remove('bg-white/40', 'backdrop-blur-xl', 'shadow-sm', 'border-white/40');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close menu on link click
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
